@@ -6,9 +6,9 @@ MAINTAINER Volodymyr Dubyna <vovikha@gmail.com>
 
 WORKDIR /tmp
 # Install apache, mysql, php, composer, java, firefox, xvfb
-RUN apt-get update && apt-get install -y curl wget apache2 php5 php5-curl mysql-server xvfb firefox
+RUN apt-get update && apt-get install -y vim curl wget links apache2 php5 php5-curl php5-mysql php5-mcrypt php5-gd mysql-server xvfb firefox
 RUN apt-get install -y openjdk-7-jre-headless xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
-
+RUN a2dissite 000-default && apache2ctl stop
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 RUN mv /usr/bin/composer.phar /usr/bin/composer
 
