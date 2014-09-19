@@ -4,6 +4,9 @@
 FROM ubuntu:14.04
 MAINTAINER Volodymyr Dubyna <vovikha@gmail.com>
 
+# Get rid of the debconf messages
+ENV DEBIAN_FRONTEND noninteractive
+
 WORKDIR /tmp
 # Install apache, mysql, php, composer, java, firefox, xvfb
 RUN apt-get update && apt-get install -y vim curl wget links apache2 php5 php5-curl php5-mysql php5-mcrypt php5-gd mysql-server xvfb firefox
@@ -25,9 +28,6 @@ ENV DISPLAY :99
 
 # Install gitlab runner
 
-# Get rid of the debconf messages
-ENV DEBIAN_FRONTEND noninteractive
-
 RUN apt-get install -y curl libxml2-dev libxslt-dev libcurl4-openssl-dev libreadline6-dev libssl-dev patch build-essential zlib1g-dev openssh-server libyaml-dev libicu-dev
 
 # Download Ruby and compile it
@@ -41,6 +41,10 @@ RUN gem install bundler
 RUN echo "LC_ALL=\"en_US.UTF-8\"" >> /etc/default/locale
 RUN locale-gen en_US.UTF-8
 RUN update-locale LANG=en_US.UTF-8
+
+# Prepare a known host file for non-interactive ssh connections
+RUN mkdir -p /root/.ssh
+RUN touch /root/.ssh/known_hosts
 
 # Install the runner
 RUN curl --silent -L https://gitlab.com/gitlab-org/gitlab-ci-runner/repository/archive.tar.gz | tar xz
