@@ -6,13 +6,13 @@ MAINTAINER Volodymyr Dubyna <vovikha@gmail.com>
 
 WORKDIR /tmp
 # Install apache, mysql, php, composer, java, firefox, xvfb
-RUN apt-get update && apt-get install -y apache2 php5 php5-curl mysql xvfb firefox
+RUN apt-get update && apt-get install -y curl wget apache2 php5 php5-curl mysql-server xvfb firefox
 RUN apt-get install -y openjdk-7-jre-headless xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
 RUN mv /usr/bin/composer.phar /usr/bin/composer
 
-RUN mkdir -p /usr/lib/selenium && wget http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar /usr/lib/selenium/selenium-server-standalone.jar
+RUN mkdir -p /usr/lib/selenium && wget -P /usr/lib/selenium/selenium-server-standalone.jar http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar
 ADD ./install /
 RUN mkdir -p /var/log/selenium/ && chmod 777 /var/log/selenium/
 RUN chmod +x /etc/init.d/selenium && update-rc.d selenium defaults
